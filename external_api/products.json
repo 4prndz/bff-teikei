@@ -1,0 +1,125 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Laptop",
+      "brand": "ABC",
+      "category": "Electronics",
+      "price": 999.99,
+      "currency": "USD",
+      "availability": true,
+      "description": "High-performance laptop with latest specifications.",
+      "features": [
+        "Intel Core i7",
+        "16GB RAM",
+        "512GB SSD",
+        "15.6\" FHD Display"
+      ],
+      "image_url": "https://example.com/laptop.jpg",
+      "user_id": 1
+    },
+    {
+      "id": "2",
+      "name": "Smartphone",
+      "brand": "XYZ",
+      "category": "Electronics",
+      "price": 699.99,
+      "currency": "USD",
+      "availability": false,
+      "description": "Flagship smartphone with advanced camera features.",
+      "features": [
+        "6.5\" AMOLED Display",
+        "Snapdragon 888",
+        "8GB RAM",
+        "256GB Storage"
+      ],
+      "image_url": "https://example.com/smartphone.jpg",
+      "user_id": 1
+    },
+    {
+      "id": "3",
+      "name": "Running Shoes",
+      "brand": "Nike",
+      "category": "Sports",
+      "price": 129.99,
+      "currency": "USD",
+      "availability": true,
+      "description": "Comfortable and lightweight shoes for running.",
+      "features": [
+        "Breathable mesh upper",
+        "Cushioned midsole",
+        "Durable rubber outsole"
+      ],
+      "image_url": "https://example.com/runningshoes.jpg",
+      "user_id": 2
+    },
+    {
+      "id": "4",
+      "name": "Wireless Headphones",
+      "brand": "Sony",
+      "category": "Electronics",
+      "price": 199.99,
+      "currency": "USD",
+      "availability": true,
+      "description": "High-quality wireless headphones with noise-canceling feature.",
+      "features": [
+        "Bluetooth connectivity",
+        "30 hours of battery life",
+        "Touch controls"
+      ],
+      "image_url": "https://example.com/headphones.jpg",
+      "user_id": 3
+    },
+    {
+      "id": "5",
+      "name": "Coffee Maker",
+      "brand": "Keurig",
+      "category": "Home & Kitchen",
+      "price": 79.99,
+      "currency": "USD",
+      "availability": true,
+      "description": "Single-serve coffee maker for quick and convenient brewing.",
+      "features": [
+        "Compatible with K-Cup pods",
+        "Brews multiple cup sizes",
+        "Removable drip tray"
+      ],
+      "image_url": "https://example.com/coffeemaker.jpg",
+      "user_id": 5
+    },
+    {
+      "id": "6",
+      "name": "Yoga Mat",
+      "brand": "Lululemon",
+      "category": "Sports",
+      "price": 49.99,
+      "currency": "USD",
+      "availability": true,
+      "description": "Premium yoga mat for enhanced comfort and stability during practice.",
+      "features": [
+        "Eco-friendly material",
+        "Non-slip surface",
+        "Lightweight and portable"
+      ],
+      "image_url": "https://example.com/yogamat.jpg",
+      "user_id": 5
+    },
+    {
+      "id": "7",
+      "name": "Portable Bluetooth Speaker",
+      "brand": "JBL",
+      "category": "Electronics",
+      "price": 59.99,
+      "currency": "USD",
+      "availability": false,
+      "description": "Compact and powerful speaker for on-the-go music.",
+      "features": [
+        "Wireless Bluetooth streaming",
+        "Waterproof design",
+        "Built-in rechargeable battery"
+      ],
+      "image_url": "https://example.com/bluetoothspeaker.jpg",
+      "user_id": 4
+    }
+  ]
+}

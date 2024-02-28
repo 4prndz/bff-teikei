@@ -1,7 +1,8 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import fastify from "fastify";
+import { fastify, FastifyReply, FastifyRequest } from "fastify";
 
-const server = fastify();
+const server = fastify({
+  logger: true,
+});
 
 server.get("/", async (req: FastifyRequest, reply: FastifyReply) => {
   return reply.send({

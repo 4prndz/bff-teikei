@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fastify": "^4.26.1"
+    "fastify": "^4.26.1",
+    "json-server": "^1.0.0-alpha.23"
   },
   "devDependencies": {
     "@types/node": "^20.11.21",
