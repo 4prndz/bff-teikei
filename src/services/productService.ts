@@ -1,6 +1,7 @@
 import { Client } from "undici";
+import { Review } from "./reviewService";
 
-type Product = {
+export type Product = {
   id: String;
   name: String;
   brand: String;

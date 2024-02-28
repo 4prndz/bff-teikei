@@ -1,9 +1,9 @@
 import { Client } from "undici";
 
-type Review = {
+export type Review = {
   product_id: String;
   user_id: String;
-  star: String;
+  star: Number;
   comment: String;
 };
 
@@ -14,10 +14,10 @@ export default class ReviewService {
     this.client = new Client("http://localhost:3002");
   }
 
-  async getReviews(productId: string) {
+  async getReviews(productId: String) {
     const response = await this.client.request({
       method: "GET",
-      path: "/reviews",
+      path: "/reviews/",
       query: { product_id: productId },
     });
 
@@ -28,8 +28,8 @@ export default class ReviewService {
     for (const review of data) {
       reviews.push({
         user_id: review.user_id,
-        start: review.user_id,
-        comment: review.user_id,
+        star: Number(review.star),
+        comment: review.comment,
       });
     }
 
