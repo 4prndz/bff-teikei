@@ -1,5 +1,4 @@
 import { Client } from "undici";
-import { Review } from "./reviewService";
 
 export type Product = {
   id: String;
@@ -12,7 +11,7 @@ export type Product = {
   description: String;
   features: String[];
   image_url: String;
-  user_id: Number;
+  user_id: String;
 };
 
 export default class ProductService {

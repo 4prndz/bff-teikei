@@ -47,7 +47,7 @@ export default class UserService {
     return users;
   }
 
-  async getUser(id: string) {
+  async getUser(id: String) {
     const response = await this.client.request({
       method: "GET",
       path: `/users/${id}`,

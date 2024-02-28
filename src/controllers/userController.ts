@@ -11,7 +11,7 @@ export default class UserController {
     return response;
   }
 
-  async getUser(id: string) {
+  async getUser(id: String) {
     const response = await this.userService.getUser(id);
     return response;
   }
