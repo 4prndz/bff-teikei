@@ -1,49 +1,58 @@
 {
   "reviews": [
     {
-      "products_id": "1",
+      "product_id": "1",
       "user_id": "5",
-      "star": "5"
+      "star": "5",
+      "comment": "Ótimo produto, atendeu às minhas expectativas."
     },
     {
-      "products_id": "1",
+      "product_id": "1",
       "user_id": "4",
-      "star": "4"
+      "star": "4",
+      "comment": "Produto de boa qualidade, recomendo."
     },
     {
-      "products_id": "2",
+      "product_id": "2",
       "user_id": "3",
-      "star": "1"
+      "star": "1",
+      "comment": "Produto chegou danificado, não gostei."
     },
     {
-      "products_id": "2",
+      "product_id": "2",
       "user_id": "4",
-      "star": "3"
+      "star": "3",
+      "comment": "Poderia ser melhor, mas serve para o propósito."
     },
     {
-      "products_id": "2",
+      "product_id": "2",
       "user_id": "2",
-      "star": "2"
+      "star": "2",
+      "comment": "Esperava mais, mas está ok."
     },
     {
-      "products_id": "3",
+      "product_id": "3",
       "user_id": "1",
-      "star": "3"
+      "star": "3",
+      "comment": "Regular, não me impressionou."
     },
     {
-      "products_id": "3",
+      "product_id": "3",
       "user_id": "5",
-      "star": "2"
+      "star": "2",
+      "comment": "Não recomendo, não cumpre o prometido."
     },
     {
-      "products_id": "4",
+      "product_id": "4",
       "user_id": "1",
-      "star": "4"
+      "star": "4",
+      "comment": "Excelente produto, muito satisfeito."
     },
     {
-      "products_id": "5",
+      "product_id": "5",
       "user_id": "1",
-      "star": "5"
+      "star": "5",
+      "comment": "Melhor compra que já fiz, recomendo a todos."
     }
   ]
 }
