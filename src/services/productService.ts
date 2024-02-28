@@ -21,7 +21,7 @@ export default class ProductService {
     this.client = new Client("http://localhost:3001");
   }
 
-  async getProducts(): Promise<Product[]> {
+  async getProducts() {
     const response = await this.client.request({
       method: "GET",
       path: "/products",
@@ -44,10 +44,10 @@ export default class ProductService {
       });
     }
 
-    return data;
+    return products;
   }
 
-  async getProduct(id: string): Promise<Product> {
+  async getProduct(id: string) {
     const response = await this.client.request({
       method: "GET",
       path: `/products/${id}`,
