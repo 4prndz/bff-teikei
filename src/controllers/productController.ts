@@ -1,5 +1,5 @@
 import ProductService, { Product } from "../services/productService";
-import ReviewService from "../services/reviewService";
+import ReviewService, { Review } from "../services/reviewService";
 import UserService from "../services/userService";
 
 export default class ProductController {
@@ -21,7 +21,7 @@ export default class ProductController {
       const reviews = await this.reviewService.getReviews(product.id);
       const user = await this.userService.getUser(product.user_id);
 
-      const totalstars = reviews.reduce((total, review) => {
+      const totalstars = reviews.reduce((total: number, review: Review) => {
         return total + review.star;
       }, 0);
 
@@ -46,7 +46,7 @@ export default class ProductController {
     const user = await this.userService.getUser(product.user_id);
 
     const reviewsFinal = await Promise.all(
-      reviews.map(async (review) => {
+      reviews.map(async (review: Review) => {
         const user = await this.userService.getUser(review.user_id);
         return {
           ...review,
@@ -56,7 +56,7 @@ export default class ProductController {
       }),
     );
 
-    const totalstars = reviews.reduce((total, review) => {
+    const totalstars = reviews.reduce((total: number, review: Review) => {
       return total + review.star;
     }, 0);
 

@@ -1,5 +1,6 @@
 import CircuitBreaker from "opossum";
 import Http from "../utils/http";
+import redis from "../utils/redis";
 
 export type Product = {
   id: string;
@@ -24,6 +25,14 @@ export default class ProductService {
     this.client = new Http("http://localhost:3001");
     this.cbGetProducts = new CircuitBreaker(
       async () => {
+        const key = "posts";
+        const staleKey = "posts-stale";
+
+        const dataFromCache = await redis.get(key);
+        if (dataFromCache) {
+          return JSON.parse(dataFromCache);
+        }
+
         const response = await this.client.request(
           {
             method: "GET",
@@ -47,6 +56,12 @@ export default class ProductService {
           });
         }
 
+        await redis
+          .pipeline()
+          .set(key, JSON.stringify(products), "EX", 120)
+          .set(staleKey, JSON.stringify(products), "EX", 36000)
+          .exec();
+
         return products;
       },
       {
@@ -55,11 +70,24 @@ export default class ProductService {
         resetTimeout: 10000,
       },
     );
-    this.cbGetProducts.fallback(() => {
+    this.cbGetProducts.fallback(async () => {
+      const staleKey = "posts-stale";
+      const dataFromCache = await redis.get(staleKey);
+      if (dataFromCache) {
+        return JSON.parse(dataFromCache);
+      }
       return [];
     });
     this.cbGetProduct = new CircuitBreaker(
       async (id: string) => {
+        const key = `post:${id}`;
+        const staleKey = `post-stale:${id}`;
+
+        const dataFromCache = await redis.get(key);
+        if (dataFromCache) {
+          return JSON.parse(dataFromCache);
+        }
+
         const response = await this.client.request(
           {
             method: "GET",
@@ -67,6 +95,12 @@ export default class ProductService {
           },
           { timeout: 5000 },
         );
+
+        await redis
+          .pipeline()
+          .set(key, JSON.stringify(response), "EX", 120)
+          .set(staleKey, JSON.stringify(response), "EX", 36000)
+          .exec();
 
         return response;
       },
@@ -76,7 +110,12 @@ export default class ProductService {
         resetTimeout: 10000,
       },
     );
-    this.cbGetProduct.fallback(() => {
+    this.cbGetProduct.fallback(async (id: string) => {
+      const staleKey = `post-stale:${id}`;
+      const dataFromCache = await redis.get(staleKey);
+      if (dataFromCache) {
+        return JSON.parse(dataFromCache);
+      }
       return {};
     });
   }

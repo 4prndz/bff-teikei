@@ -1,5 +1,6 @@
 import CircuitBreaker from "opossum";
 import Http from "../utils/http";
+import redis from "../utils/redis";
 
 type User = {
   id: string;
@@ -29,6 +30,14 @@ export default class UserService {
     this.client = new Http("http://localhost:3003");
     this.cbGetUsers = new CircuitBreaker(
       async () => {
+        const key = `users`;
+        const staleKey = `users-stale`;
+
+        const dataFromCache = await redis.get(key);
+        if (dataFromCache) {
+          return JSON.parse(dataFromCache);
+        }
+
         const response = await this.client.request(
           {
             method: "GET",
@@ -47,6 +56,12 @@ export default class UserService {
           });
         }
 
+        await redis
+          .pipeline()
+          .set(key, JSON.stringify(users), "EX", 120)
+          .set(staleKey, JSON.stringify(users), "EX", 36000)
+          .exec();
+
         return users;
       },
       {
@@ -55,11 +70,25 @@ export default class UserService {
         resetTimeout: 10000,
       },
     );
-    this.cbGetUsers.fallback(() => {
+    this.cbGetUsers.fallback(async () => {
+      const staleKey = `users-stale`;
+
+      const dataFromCache = await redis.get(staleKey);
+      if (dataFromCache) {
+        return JSON.parse(dataFromCache);
+      }
       return [];
     });
     this.cbGetUser = new CircuitBreaker(
       async (id: string) => {
+        const key = `user:${id}`;
+        const staleKey = `user-stale:${id}`;
+
+        const dataFromCache = await redis.get(key);
+        if (dataFromCache) {
+          return JSON.parse(dataFromCache);
+        }
+
         const response = await this.client.request(
           {
             method: "GET",
@@ -67,6 +96,12 @@ export default class UserService {
           },
           { timeout: 5000 },
         );
+
+        await redis
+          .pipeline()
+          .set(key, JSON.stringify(dataFromCache), "EX", 120)
+          .set(staleKey, JSON.stringify(dataFromCache), "EX", 36000)
+          .exec();
 
         return response;
       },
@@ -76,7 +111,12 @@ export default class UserService {
         resetTimeout: 10000,
       },
     );
-    this.cbGetUser.fallback(() => {
+    this.cbGetUser.fallback(async (id: string) => {
+      const staleKey = `user-stale:${id}`;
+      const dataFromCache = await redis.get(staleKey);
+      if (dataFromCache) {
+        return JSON.parse(dataFromCache);
+      }
       return {};
     });
   }
