@@ -10,7 +10,7 @@ const productController = new ProductController();
 const userController = new UserController();
 
 const server = fastify({
-  logger: true,
+  logger: false,
 });
 
 server.get("/products", async (_, reply: FastifyReply) => {

@@ -1,4 +1,4 @@
-import { Client } from "undici";
+import Http from "../utils/http";
 
 export type Review = {
   product_id: String;
@@ -11,21 +11,22 @@ export default class ReviewService {
   private client;
 
   constructor() {
-    this.client = new Client("http://localhost:3002");
+    this.client = new Http("http://localhost:3002");
   }
 
   async getReviews(productId: String) {
-    const response = await this.client.request({
-      method: "GET",
-      path: "/reviews/",
-      query: { product_id: productId },
-    });
-
-    const data = (await response.body.json()) as Review[];
+    const response = await this.client.request(
+      {
+        method: "GET",
+        path: "/reviews/",
+        query: { product_id: productId },
+      },
+      { timeout: 5000 },
+    );
 
     const reviews = [];
 
-    for (const review of data) {
+    for (const review of response) {
       reviews.push({
         user_id: review.user_id,
         star: Number(review.star),

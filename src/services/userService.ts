@@ -1,4 +1,4 @@
-import { Client } from "undici";
+import Http from "../utils/http";
 
 type User = {
   id: String;
@@ -23,20 +23,21 @@ export default class UserService {
   private client;
 
   constructor() {
-    this.client = new Client("http://localhost:3003");
+    this.client = new Http("http://localhost:3003");
   }
 
   async getUsers() {
-    const response = await this.client.request({
-      method: "GET",
-      path: "/users",
-    });
-
-    const data = (await response.body.json()) as User[];
+    const response = await this.client.request(
+      {
+        method: "GET",
+        path: "/users",
+      },
+      { timeout: 5000 },
+    );
 
     const users = [];
 
-    for (const user of data) {
+    for (const user of response) {
       users.push({
         id: user.id,
         username: user.username,
@@ -48,13 +49,14 @@ export default class UserService {
   }
 
   async getUser(id: String) {
-    const response = await this.client.request({
-      method: "GET",
-      path: `/users/${id}`,
-    });
+    const response = await this.client.request(
+      {
+        method: "GET",
+        path: `/users/${id}`,
+      },
+      { timeout: 5000 },
+    );
 
-    const data = (await response.body.json()) as User;
-
-    return data;
+    return response;
   }
 }

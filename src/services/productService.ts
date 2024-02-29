@@ -1,4 +1,4 @@
-import { Client } from "undici";
+import Http from "../utils/http";
 
 export type Product = {
   id: String;
@@ -18,20 +18,21 @@ export default class ProductService {
   private client;
 
   constructor() {
-    this.client = new Client("http://localhost:3001");
+    this.client = new Http("http://localhost:3001");
   }
 
   async getProducts() {
-    const response = await this.client.request({
-      method: "GET",
-      path: "/products",
-    });
-
-    const data = (await response.body.json()) as Product[];
+    const response = await this.client.request(
+      {
+        method: "GET",
+        path: "/products",
+      },
+      { timeout: 5000 },
+    );
 
     const products = [];
 
-    for (const product of data) {
+    for (const product of response) {
       products.push({
         id: product.id,
         name: product.name,
@@ -48,13 +49,14 @@ export default class ProductService {
   }
 
   async getProduct(id: string) {
-    const response = await this.client.request({
-      method: "GET",
-      path: `/products/${id}`,
-    });
+    const response = await this.client.request(
+      {
+        method: "GET",
+        path: `/products/${id}`,
+      },
+      { timeout: 5000 },
+    );
 
-    const data = (await response.body.json()) as Product;
-
-    return data;
+    return response;
   }
 }
