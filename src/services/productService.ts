@@ -41,7 +41,7 @@ export default class ProductService {
           { timeout: 5000 },
         );
 
-        const products = [];
+        const products: Product[] = [];
 
         for (const product of response) {
           products.push({
@@ -53,7 +53,7 @@ export default class ProductService {
             availability: product.availability,
             image_url: product.image_url,
             user_id: product.user_id,
-          });
+          } as Product);
         }
 
         await redis
@@ -88,7 +88,7 @@ export default class ProductService {
           return JSON.parse(dataFromCache);
         }
 
-        const response = await this.client.request(
+        const response: Product = await this.client.request(
           {
             method: "GET",
             path: `/products/${id}`,
@@ -120,7 +120,7 @@ export default class ProductService {
     });
   }
 
-  async getProducts(): Promise<any[]> {
+  async getProducts(): Promise<Product[]> {
     console.log("Products:");
     const { rejects, failures, fallbacks, successes } =
       this.cbGetProducts.stats;
