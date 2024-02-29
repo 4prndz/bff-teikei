@@ -46,14 +46,14 @@ export default class UserService {
           { timeout: 5000 },
         );
 
-        const users = [];
+        const users: User[] = [];
 
         for (const user of response) {
           users.push({
             id: user.id,
             username: user.username,
             email: user.email,
-          });
+          } as User);
         }
 
         await redis
@@ -89,7 +89,7 @@ export default class UserService {
           return JSON.parse(dataFromCache);
         }
 
-        const response = await this.client.request(
+        const response: User = await this.client.request(
           {
             method: "GET",
             path: `/users/${id}`,
@@ -99,8 +99,8 @@ export default class UserService {
 
         await redis
           .pipeline()
-          .set(key, JSON.stringify(dataFromCache), "EX", 120)
-          .set(staleKey, JSON.stringify(dataFromCache), "EX", 36000)
+          .set(key, JSON.stringify(response), "EX", 120)
+          .set(staleKey, JSON.stringify(response), "EX", 36000)
           .exec();
 
         return response;
@@ -114,6 +114,7 @@ export default class UserService {
     this.cbGetUser.fallback(async (id: string) => {
       const staleKey = `user-stale:${id}`;
       const dataFromCache = await redis.get(staleKey);
+      console.log(dataFromCache);
       if (dataFromCache) {
         return JSON.parse(dataFromCache);
       }
@@ -121,14 +122,14 @@ export default class UserService {
     });
   }
 
-  async getUsers() {
+  async getUsers(): Promise<User[]> {
     console.log("Users");
     const { rejects, failures, fallbacks, successes } = this.cbGetUsers.stats;
     console.log({ rejects, failures, fallbacks, successes });
     return this.cbGetUsers.fire();
   }
 
-  async getUser(id: string) {
+  async getUser(id: string): Promise<User> {
     console.log("User");
     const { rejects, failures, fallbacks, successes } = this.cbGetUser.stats;
     console.log({ rejects, failures, fallbacks, successes });

@@ -8,6 +8,7 @@ export default class UserController {
 
   async getUsers() {
     const response = await this.userService.getUsers();
+    if (!response.length) return {};
     return response;
   }
 

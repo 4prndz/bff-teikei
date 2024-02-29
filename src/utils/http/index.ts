@@ -8,7 +8,7 @@ type Signals = {
 };
 
 export default class Http {
-  private client;
+  private client: Client;
 
   constructor(url: string) {
     this.client = new Client(url);
@@ -28,10 +28,10 @@ export default class Http {
     } catch (error) {
       if (error instanceof TimeoutException) {
         throw error;
+      } else {
+        throw error ? error : new Error("Unexpected error occurred.");
       }
     }
-
-    throw Error;
   }
 
   private async makeRequest(
@@ -62,8 +62,10 @@ export default class Http {
       cancelRequest.abort();
     } catch (error) {
       return;
+    } finally {
+      cancelTimeout.abort(); // Ensure cancellation even if setTimeout fails
     }
 
-    throw TimeoutException;
+    throw new TimeoutException();
   }
 }
