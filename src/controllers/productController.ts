@@ -1,4 +1,4 @@
-import ProductService from "../services/productService";
+import ProductService, { Product } from "../services/productService";
 import ReviewService from "../services/reviewService";
 import UserService from "../services/userService";
 
@@ -12,9 +12,10 @@ export default class ProductController {
     this.userService = new UserService();
   }
 
-  async getProducts(): Promise<any[]> {
+  async getProducts(): Promise<Product[]> {
     const products = await this.productService.getProducts();
     const productsfinal = [];
+    if (!products.length) return [];
 
     for (const product of products) {
       const reviews = await this.reviewService.getReviews(product.id);
@@ -40,6 +41,7 @@ export default class ProductController {
 
   async getProduct(id: string) {
     const product = await this.productService.getProduct(id);
+    if (!Object.keys(product).length) return {};
     const reviews = await this.reviewService.getReviews(id);
     const user = await this.userService.getUser(product.user_id);
 
