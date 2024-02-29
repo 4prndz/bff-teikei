@@ -27,36 +27,46 @@ export default class UserService {
   }
 
   async getUsers() {
-    const response = await this.client.request(
-      {
-        method: "GET",
-        path: "/users",
-      },
-      { timeout: 5000 },
-    );
+    try {
+      const response = await this.client.request(
+        {
+          method: "GET",
+          path: "/users",
+        },
+        { timeout: 5000 },
+      );
 
-    const users = [];
+      const users = [];
 
-    for (const user of response) {
-      users.push({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-      });
+      for (const user of response) {
+        users.push({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+        });
+      }
+
+      return users;
+    } catch (error) {
+      console.log("Timeout Exceeded for Users");
+      return [];
     }
-
-    return users;
   }
 
   async getUser(id: String) {
-    const response = await this.client.request(
-      {
-        method: "GET",
-        path: `/users/${id}`,
-      },
-      { timeout: 5000 },
-    );
+    try {
+      const response = await this.client.request(
+        {
+          method: "GET",
+          path: `/users/${id}`,
+        },
+        { timeout: 5000 },
+      );
 
-    return response;
+      return response;
+    } catch (error) {
+      console.log("Timeout Exceeded for User");
+      return {};
+    }
   }
 }

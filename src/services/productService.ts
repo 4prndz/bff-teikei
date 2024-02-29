@@ -22,41 +22,51 @@ export default class ProductService {
   }
 
   async getProducts() {
-    const response = await this.client.request(
-      {
-        method: "GET",
-        path: "/products",
-      },
-      { timeout: 5000 },
-    );
+    try {
+      const response = await this.client.request(
+        {
+          method: "GET",
+          path: "/products",
+        },
+        { timeout: 5000 },
+      );
 
-    const products = [];
+      const products = [];
 
-    for (const product of response) {
-      products.push({
-        id: product.id,
-        name: product.name,
-        brand: product.brand,
-        category: product.category,
-        price: product.price,
-        availability: product.availability,
-        image_url: product.image_url,
-        user_id: product.user_id,
-      });
+      for (const product of response) {
+        products.push({
+          id: product.id,
+          name: product.name,
+          brand: product.brand,
+          category: product.category,
+          price: product.price,
+          availability: product.availability,
+          image_url: product.image_url,
+          user_id: product.user_id,
+        });
+      }
+
+      return products;
+    } catch (error) {
+      console.log("Timeout Exceeded for Products");
+      return [];
     }
-
-    return products;
   }
 
   async getProduct(id: string) {
-    const response = await this.client.request(
-      {
-        method: "GET",
-        path: `/products/${id}`,
-      },
-      { timeout: 5000 },
-    );
+    try {
+      const response = await this.client.request(
+        {
+          method: "GET",
+          path: `/products/${id}`,
+        },
+        { timeout: 5000 },
+      );
 
-    return response;
+      return response;
+    } catch (error) {
+      console.log("Timeout Exceeded for Product");
+      return {};
+    }
   }
 }

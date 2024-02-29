@@ -15,25 +15,30 @@ export default class ReviewService {
   }
 
   async getReviews(productId: String) {
-    const response = await this.client.request(
-      {
-        method: "GET",
-        path: "/reviews/",
-        query: { product_id: productId },
-      },
-      { timeout: 5000 },
-    );
+    try {
+      const response = await this.client.request(
+        {
+          method: "GET",
+          path: "/reviews/",
+          query: { product_id: productId },
+        },
+        { timeout: 5000 },
+      );
 
-    const reviews = [];
+      const reviews = [];
 
-    for (const review of response) {
-      reviews.push({
-        user_id: review.user_id,
-        star: Number(review.star),
-        comment: review.comment,
-      });
+      for (const review of response) {
+        reviews.push({
+          user_id: review.user_id,
+          star: Number(review.star),
+          comment: review.comment,
+        });
+      }
+
+      return reviews;
+    } catch (error) {
+      console.log("Timeout Exceeded for Reviews");
+      return [];
     }
-
-    return reviews;
   }
 }

@@ -27,7 +27,6 @@ export default class Http {
       return response;
     } catch (error) {
       if (error instanceof TimeoutException) {
-        console.log("Timeout exceeded");
         throw error;
       }
     }
@@ -62,7 +61,6 @@ export default class Http {
       await setTimeout(delay, undefined, { signal: cancelTimeout.signal });
       cancelRequest.abort();
     } catch (error) {
-      console.log("Timeout Exceeded");
       return;
     }
 
