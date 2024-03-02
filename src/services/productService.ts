@@ -13,7 +13,10 @@ export type Product = {
   description: string;
   features: string[];
   image_url: string;
-  user_id: string;
+  user_id?: string;
+  user_name?: string;
+  reviews_average_star: number;
+  reviews_quantities: number;
 };
 
 export default class ProductService {

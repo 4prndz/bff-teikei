@@ -14,12 +14,12 @@ export default class ProductController {
 
   async getProducts(): Promise<Product[]> {
     const products = await this.productService.getProducts();
-    const productsfinal = [];
+    const productsfinal: Product[] = [];
     if (!products.length) return [];
 
     for (const product of products) {
       const reviews = await this.reviewService.getReviews(product.id);
-      const user = await this.userService.getUser(product.user_id);
+      const user = await this.userService.getUser(product.user_id!);
 
       const totalstars = reviews.reduce((total: number, review: Review) => {
         return total + review.star;
@@ -43,7 +43,7 @@ export default class ProductController {
     const product = await this.productService.getProduct(id);
     if (!Object.keys(product).length) return {};
     const reviews = await this.reviewService.getReviews(id);
-    const user = await this.userService.getUser(product.user_id);
+    const user = await this.userService.getUser(product.user_id!);
 
     const reviewsFinal = await Promise.all(
       reviews.map(async (review: Review) => {
